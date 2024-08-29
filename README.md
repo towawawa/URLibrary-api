@@ -11,7 +11,7 @@ $ docker compose up -d
 
 4.  コンテナへ入る
 ```
-$ docker exec -it engei-front sh
+$ docker exec -it urlibrary-api bash
 ```
 
 5.  パッケージのインストール
