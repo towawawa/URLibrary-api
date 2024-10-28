@@ -5,10 +5,7 @@ services:
         build:
             context: .
             dockerfile: ./docker/php/Dockerfile
-        # nginx経由でしかアクセスしないのでポートは開けない
         volumes:
-            # ローカルとコンテナを同期する
-            # 「:」より左がローカルで右側がコンテナ
             - ./:/app
             - ./docker/php/php.ini://usr/local/etc/php/php.ini
         environment:
