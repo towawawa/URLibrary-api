@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
-class UserFactory extends Factory
+class GenreFactory extends Factory
 {
     /**
      * The current password being used by the factory.
@@ -23,9 +23,9 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => User::factory(),
             'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
-            'password' => Hash::make('password'),
+            'image_path' => $this->faker->imageUrl(),
             'created_at' => now(),
             'updated_at' => now(),
         ];
