@@ -16,12 +16,12 @@ class UrlLibrary extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function hashTags()
+    public function genre()
     {
-        return $this->hasMany(HashTag::class);
+        return $this->belongsTo(Genre::class);
     }
 
-    public function hasTagUrlLibraries()
+    public function hashTags()
     {
         return $this->belongsToMany(HashTag::class, 'has_tag_url_libraries');
     }

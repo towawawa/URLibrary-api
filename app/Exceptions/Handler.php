@@ -42,6 +42,9 @@ class Handler extends ExceptionHandler
                     case 404:
                         return response()->json(config("response.{$status_code}"), $status_code);
                         break;
+                    case 405:
+                        return response()->json(config('response.401'), 401);
+                        break;
                     default:
                         return response()->json([
                             'code' => $status_code,
