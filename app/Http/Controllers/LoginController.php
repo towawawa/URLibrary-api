@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(LoginRequest $request)
     {
         if (!Auth::attempt([
             'email' => $request->input('email'),
