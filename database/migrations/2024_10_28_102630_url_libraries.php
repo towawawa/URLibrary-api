@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('url_libraries', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
-            $table->bigInteger('genre_id');
+            $table->bigInteger('genre_id')->nullable();
             $table->string('url')->comment('URL');
             $table->string('title')->comment('タイトル');
-            $table->text('note')->comment('メモ');
+            $table->text('note')->nullable()->comment('メモ');
             $table->dateTime('created_at')->useCurrent()->comment('作成日時');
             $table->dateTime('updated_at')->nullable()->useCurrentOnUpdate()->comment('更新日時');
         });
