@@ -11,7 +11,8 @@ class GetController extends Controller
 {
     public function __invoke(int $id)
     {
-        $urlLibrary = UrlLibrary::findOrFail($id);
+        $urlLibrary = UrlLibrary::with(['hashTags', 'genre'])
+            ->findOrFail($id);
 
         return response()->json(
             config('response.200') + [

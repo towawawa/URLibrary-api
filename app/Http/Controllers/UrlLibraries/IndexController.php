@@ -29,6 +29,7 @@ class IndexController extends Controller
             ->when(isset($request->keyword), function ($query) use ($request) {
                 $query->where('title', 'like', "%{$request->keyword}%");
             })
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json(

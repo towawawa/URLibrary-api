@@ -28,6 +28,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/url-libraries', UrlLibraries\IndexController::class);
     Route::get('/url-libraries/{id}', UrlLibraries\GetController::class);
+    Route::put('/url-libraries/{id}', UrlLibraries\EditController::class);
     Route::put('/url-libraries/{id}/note', UrlLibraries\EditNoteController::class);
     Route::post('/url-libraries', UrlLibraries\RegisterController::class);
+    Route::delete('/url-libraries/{id}', UrlLibraries\DeleteController::class);
 });
