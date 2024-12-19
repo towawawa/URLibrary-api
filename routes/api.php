@@ -27,5 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/genres', Genres\IndexController::class);
 
     Route::get('/url-libraries', UrlLibraries\IndexController::class);
+    Route::get('/url-libraries/{id}', UrlLibraries\GetController::class);
+    Route::put('/url-libraries/{id}/note', UrlLibraries\EditNoteController::class);
     Route::post('/url-libraries', UrlLibraries\RegisterController::class);
 });

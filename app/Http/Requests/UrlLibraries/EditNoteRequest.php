@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests\UrlLibraries;
 
-class RegisterRequest extends Request
+class EditNoteRequest extends Request
 {
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -11,6 +12,8 @@ class RegisterRequest extends Request
      */
     public function rules(): array
     {
-        return parent::rules();
+        return [
+            'note' => parent::rules()['note'],
+        ];
     }
 }

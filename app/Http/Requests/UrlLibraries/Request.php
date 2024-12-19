@@ -21,7 +21,7 @@ class Request extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function saveRules(): array
+    public function rules(): array
     {
         return [
             'title' => ['required', 'max:255'],
