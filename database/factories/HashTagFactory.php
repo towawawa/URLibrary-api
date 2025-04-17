@@ -24,6 +24,7 @@ class HashTagFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
+            'user_id' => User::factory(),
             'created_at' => now(),
             'updated_at' => now(),
         ];
