@@ -1,3 +1,7 @@
+
+yaml
+コピーする
+編集する
 services:
   - type: web
     name: urlibrary-api
@@ -5,8 +9,7 @@ services:
     plan: free
     branch: develop
     dockerfilePath: ./Dockerfile
-    buildCommand: ""
-    startCommand: "php artisan serve --host 0.0.0.0 --port 10000"
+    buildCommand: "" # Dockerfile 内で composer install 済
+    startCommand: "" # Dockerfile CMD を使用
     preDeployCommand: |
-      php artisan optimize
       php artisan migrate --force
