@@ -7,20 +7,6 @@ services:
     dockerfilePath: ./Dockerfile
     buildCommand: ""
     startCommand: "php artisan serve --host 0.0.0.0 --port 10000"
-    envVars:
-      - key: APP_ENV
-        value: production
-      - key: APP_KEY
-        sync: false
-      - key: DB_CONNECTION
-        value: pgsql
-      - key: DB_HOST
-        value: your-postgres-host
-      - key: DB_PORT
-        value: 5432
-      - key: DB_DATABASE
-        value: your-db-name
-      - key: DB_USERNAME
-        value: your-db-user
-      - key: DB_PASSWORD
-        value: your-db-pass
+    preDeployCommand: |
+      php artisan optimize
+      php artisan migrate --force
