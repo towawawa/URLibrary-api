@@ -21,6 +21,13 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', LoginController::class)->name('login');
 Route::get('/me', Me\GetController::class);
 
+Route::get('/env-debug', function () {
+    return response()->json([
+        'CORS_ALLOWED_ORIGINS' => env('CORS_ALLOWED_ORIGINS'),
+        'APP_ENV' => env('APP_ENV'),
+    ]);
+});
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/masters', Masters\IndexController::class);
 
