@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UrlLibraries;
 use App\Http\Controllers\Genres;
 use App\Http\Controllers\Masters;
 use App\Http\Controllers\Me;
+use App\Http\Controllers\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,12 +22,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', LoginController::class)->name('login');
-Route::get('/me', Me\GetController::class);
+Route::post('/register', RegisterController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/me', Me\GetController::class);
+    Route::post('/logout', LogoutController::class);
+    Route::put('/user', User\UpdateController::class);
     Route::get('/masters', Masters\IndexController::class);
 
     Route::get('/genres', Genres\IndexController::class);
+    Route::post('/genres', Genres\CreateController::class);
 
     Route::get('/url-libraries', UrlLibraries\IndexController::class);
     Route::get('/url-libraries/{id}', UrlLibraries\GetController::class);
