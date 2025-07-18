@@ -15,4 +15,9 @@ class Genre extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function urlLibraries()
+    {
+        return $this->hasMany(UrlLibrary::class);
+    }
 }

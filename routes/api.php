@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/genres', Genres\IndexController::class);
     Route::post('/genres', Genres\CreateController::class);
+    Route::delete('/genres/{id}', Genres\DeleteController::class);
 
     Route::post('/hash-tags', HashTags\CreateController::class);
 
