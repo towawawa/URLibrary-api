@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('user_id');
             $table->string('name')->comment('ジャンル名');
-            $table->string('image_path')->comment('画像パス');
+            $table->string('image_path')->nullable()->comment('画像パス');
             $table->dateTime('created_at')->useCurrent()->comment('作成日時');
             $table->dateTime('updated_at')->nullable()->useCurrentOnUpdate()->comment('更新日時');
         });
