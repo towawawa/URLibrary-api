@@ -29,6 +29,8 @@ class Request extends FormRequest
             'genreId' => ['nullable', 'integer', Rule::exists('genres', 'id')->where('user_id', Auth::id())],
             'hashTagIds' => ['nullable', 'array'],
             'hashTagIds.*' => ['integer', 'distinct', Rule::exists('hash_tags', 'id')->where('user_id', Auth::id())],
+            'hashTagNames' => ['nullable', 'array'],
+            'hashTagNames.*' => ['string', 'max:50', 'distinct'],
             'note' => ['nullable'],
         ];
     }

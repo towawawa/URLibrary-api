@@ -21,7 +21,6 @@ class CreateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'image' => ['nullable', 'image', 'max:5120'], // 5MB制限
         ];
     }
 
@@ -33,8 +32,6 @@ class CreateRequest extends FormRequest
         return [
             'name.required' => 'ジャンル名は必須です。',
             'name.max' => 'ジャンル名は255文字以内で入力してください。',
-            'image.image' => '画像ファイルを選択してください。',
-            'image.max' => '画像ファイルのサイズは5MB以下にしてください。',
         ];
     }
 }
