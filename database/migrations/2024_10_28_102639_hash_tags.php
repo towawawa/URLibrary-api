@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('hash_tags', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('ユーザ名');
-            $table->string('email')->unique()->comment('メールアドレス');
-            $table->string('password')->comment('パスワード');
+            $table->bigInteger('user_id');
+            $table->string('name')->comment('ハッシュタグ名');
             $table->dateTime('created_at')->useCurrent()->comment('作成日時');
             $table->dateTime('updated_at')->nullable()->useCurrentOnUpdate()->comment('更新日時');
         });
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('hash_tags');
     }
 };

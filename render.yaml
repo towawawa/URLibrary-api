@@ -1,0 +1,15 @@
+
+yaml
+コピーする
+編集する
+services:
+  - type: web
+    name: urlibrary-api
+    env: docker
+    plan: free
+    branch: develop
+    dockerfilePath: ./Dockerfile
+    buildCommand: "" # Dockerfile 内で composer install 済
+    startCommand: "" # Dockerfile CMD を使用
+    preDeployCommand: |
+      php artisan migrate --force

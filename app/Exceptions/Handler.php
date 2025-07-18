@@ -3,7 +3,12 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use League\OAuth2\Server\Exception\OAuthServerException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
+
+
 
 class Handler extends ExceptionHandler
 {
@@ -23,8 +28,38 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (Throwable $e, $request) {
+            // バリデーションエラー
+            if ($e instanceof ValidationException) {
+                return $this->invalidJson($request, $e);
+            }
+
+            // Httpエラー
+            if ($e instanceof HttpException) {
+                $status_code = $e->getStatusCode();
+                switch ($status_code) {
+                    case 401:
+                    case 404:
+                        return response()->json(config("response.{$status_code}"), $status_code);
+                        break;
+                    case 405:
+                        return response()->json(config('response.401'), 401);
+                        break;
+                    default:
+                        return response()->json([
+                            'code' => $status_code,
+                            'message' => $e->getMessage()
+                        ], $status_code);
+                        break;
+                }
+            }
+            // その他のエラー(DBなど)
+            else if ($e->getCode()) {
+                return response()->json([
+                    'code' => 500,
+                    'message' => $e->getMessage()
+                ], 500);
+            }
         });
     }
 }

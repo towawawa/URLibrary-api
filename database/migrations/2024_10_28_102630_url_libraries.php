@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('url_libraries', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('ユーザ名');
-            $table->string('email')->unique()->comment('メールアドレス');
-            $table->string('password')->comment('パスワード');
+            $table->bigInteger('user_id');
+            $table->bigInteger('genre_id')->nullable();
+            $table->string('url')->comment('URL');
+            $table->string('title')->comment('タイトル');
+            $table->text('note')->nullable()->comment('メモ');
             $table->dateTime('created_at')->useCurrent()->comment('作成日時');
             $table->dateTime('updated_at')->nullable()->useCurrentOnUpdate()->comment('更新日時');
         });
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('url_libraries');
     }
 };
