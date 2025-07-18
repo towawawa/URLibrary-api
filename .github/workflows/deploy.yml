@@ -1,9 +1,8 @@
-name: Deploy to Fly.io
+name: Deploy API to Fly.io
 
 on:
   push:
     branches: [main]
-    paths: ["api/**"]
   workflow_dispatch:
 
 concurrency:
@@ -15,28 +14,62 @@ jobs:
     name: Deploy app
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./api
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Debug - Check repository structure
+        run: |
+          echo "Triggered by: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Repository structure:"
+          ls -la
+          echo "Checking for fly.toml:"
+          if [ -f "fly.toml" ]; then
+            echo "fly.toml found"
+            cat fly.toml
+          else
+            echo "fly.toml NOT found"
+          fi
 
       - name: Setup Fly.io CLI
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy to Fly.io
-        run: flyctl deploy --remote-only --wait-timeout 300
+        run: |
+          echo "Starting deployment..."
+          echo "Current directory: $(pwd)"
+          echo "Checking for fly.toml:"
+          ls -la fly.toml
+          flyctl deploy --remote-only --wait-timeout 600 --verbose
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Wait for deployment to be ready
+        run: |
+          echo "Waiting for app to be ready..."
+          sleep 30
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
       - name: Run Database Migrations
-        run: flyctl ssh console --command "php artisan migrate --force"
+        run: |
+          echo "Running database migrations..."
+          flyctl ssh console --command "php artisan migrate --force"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
       - name: Clear Application Cache
-        run: flyctl ssh console --command "php artisan cache:clear && php artisan config:cache && php artisan route:cache"
+        run: |
+          echo "Clearing application cache..."
+          flyctl ssh console --command "php artisan cache:clear && php artisan config:cache && php artisan route:cache"
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Health Check
+        run: |
+          echo "Performing health check..."
+          flyctl status
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
