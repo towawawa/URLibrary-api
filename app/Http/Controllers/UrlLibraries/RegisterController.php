@@ -5,6 +5,7 @@ namespace App\Http\Controllers\UrlLibraries;
 use App\Http\Requests\UrlLibraries\RegisterRequest;
 use App\Http\Resources\UrlLibraryResource;
 use App\Models\UrlLibrary;
+use App\Models\HashTag;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,37 @@ class RegisterController extends Controller
                 'note' => $request->note,
             ]);
 
-            $url_library->hashTags()->attach($request->hashTagIds);
+            // ハッシュタグIDsを処理
+            $hashTagIds = $request->hashTagIds ?? [];
+
+            // 新しいハッシュタグ名を処理
+            if ($request->hashTagNames) {
+                foreach ($request->hashTagNames as $tagName) {
+                    // 既存のタグをチェック
+                    $existingTag = HashTag::where('user_id', Auth::id())
+                        ->where('name', $tagName)
+                        ->first();
+
+                    if ($existingTag) {
+                        // 既存のタグがあれば、IDsに追加
+                        if (!in_array($existingTag->id, $hashTagIds)) {
+                            $hashTagIds[] = $existingTag->id;
+                        }
+                    } else {
+                        // 新しいタグを作成
+                        $newTag = HashTag::create([
+                            'user_id' => Auth::id(),
+                            'name' => $tagName,
+                        ]);
+                        $hashTagIds[] = $newTag->id;
+                    }
+                }
+            }
+
+            // ハッシュタグを関連付け
+            if (!empty($hashTagIds)) {
+                $url_library->hashTags()->attach(array_unique($hashTagIds));
+            }
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

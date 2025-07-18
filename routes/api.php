@@ -5,6 +5,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\UrlLibraries;
 use App\Http\Controllers\Genres;
+use App\Http\Controllers\HashTags;
 use App\Http\Controllers\Masters;
 use App\Http\Controllers\Me;
 use App\Http\Controllers\User;
@@ -32,6 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/genres', Genres\IndexController::class);
     Route::post('/genres', Genres\CreateController::class);
+
+    Route::post('/hash-tags', HashTags\CreateController::class);
 
     Route::get('/url-libraries', UrlLibraries\IndexController::class);
     Route::get('/url-libraries/{id}', UrlLibraries\GetController::class);

@@ -57,7 +57,6 @@ class RegisterController extends Controller
             Genre::create([
                 'user_id' => $userId,
                 'name' => $genreData['name'],
-                'image_path' => null, // デフォルトアイコンはフロントエンドで表示
             ]);
         }
     }
