@@ -3,6 +3,7 @@
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\UrlLibraries;
 use App\Http\Controllers\Genres;
 use App\Http\Controllers\HashTags;
@@ -25,11 +26,18 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', LoginController::class)->name('login');
 Route::post('/register', RegisterController::class);
 
+// ゲストモード
+Route::post('/guest/create', action: [GuestController::class, 'createGuest']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', Me\GetController::class);
     Route::post('/logout', LogoutController::class);
     Route::put('/user', User\UpdateController::class);
     Route::get('/masters', Masters\IndexController::class);
+
+    // ゲストモード関連
+    Route::get('/guest/status', [GuestController::class, 'checkGuestStatus']);
+    Route::post('/guest/convert', [GuestController::class, 'convertToRegular']);
 
     Route::get('/genres', Genres\IndexController::class);
     Route::post('/genres', Genres\CreateController::class);
