@@ -32,6 +32,3 @@ primary_region = 'nrt'
     timeout = "5s"
     path = "/api/me"
     headers = { }
-
-[deploy]
-  release_command = "php artisan migrate --force"
